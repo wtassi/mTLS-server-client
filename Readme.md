@@ -68,8 +68,6 @@ Servidor Respondeu....
 # Significa que o cliente conseguiu acessar o servidor com um certificado valido
 ```
 
-<img src="Teste.png">
-
 ## Saída esperada do diretório:
 ```
 |—— .gitignore

@@ -21,6 +21,7 @@ ESTADO="Minas Gerais"
 PAIS_SIGLA="BR"
 SERIALNUMBER="123456"
 EMAIL="webmaster@meudomain.com.br"
+CERT_PFX_PASS=""
 # Nome Assunto para o CA Autoassinado.
 ca_cert_cn="Devlop Local Certificate Authority"
 
@@ -200,6 +201,7 @@ generate_cert() {
   local keyfile="${path}/${name}.key.pem"
   local certfile="${path}/${name}.crt.pem"
   local csrfile="${path}/${name}.csr"
+  local pfxfile="${path}/${name}.pfx"
   
   # Cria a chave privada
   [ -f "$keyfile" ] || openssl genrsa -out "$keyfile" 4096
@@ -219,15 +221,25 @@ generate_cert() {
     -batch \
     -in ${csrfile} \
     -out ${certfile}
-    # openssl x509 \
-    #   -req -sha256 \
-    #   -CA "${path}/ca.crt" \
-    #   -CAkey "$path_root/private/cakey.pem" \
-    #   -CAserial "${path}/ca.txt" \
-    #   -CAcreateserial \
-    #   -days 365 \
-    #   ${opts} \
-    #   -out "${certfile}"
+
+  # openssl pkcs12 \
+  #   -export \
+  #   -out ${pfxfile} \
+  #   -inkey ${keyfile} \
+  #   -in ${certfile} \
+  #   -certfile "$path_root/certs/ca.crt" \
+  #   -passout pass:$CERT_PFX_PASS
+
+
+  openssl pkcs12 -export \
+    -in ${certfile} \
+    -inkey ${keyfile} -passin pass:$CERT_PFX_PASS \
+    -certfile "$path_root/certs/ca.crt" \
+    -out ${pfxfile} \
+    -passout pass:$CERT_PFX_PASS
+
+
+
 }
 
 #-----------------------------------------------------------------------------------------#
