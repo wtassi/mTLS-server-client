@@ -51,7 +51,7 @@ curl failed to verify the legitimacy of the server and therefore could not
 establish a secure connection to it. To learn more about this situation and
 how to fix it, please visit the web page mentioned above.
 
-# Significa que a aplicação espera por um Certificado válido com base na combinação de Server-CERT e CA-CERT configurado após Handshake TLS com o Servidor.
+# Significa que a aplicação espera por um Certificado válido com base na combinação de Server-CERT e CA-CERT configurado durante o hand-shake do protocolo TLS.
 ```
 
 5. Executando uma chamada na API (via terminal LINUX com o uso do CURL) - COM CERTIFICADO DE CLIENTE
@@ -108,3 +108,32 @@ Servidor Respondeu....
 |—— Teste.png
 |—— web-server.js
 ```
+
+## Mutual TLS (mTLS)
+A autenticação TLS mútua (mTLS) garante que o tráfego seja seguro e ambas as partes estejam fortemente autenticadas. Nas negociações de criptografia tradicional TLS, apenas o servidor se autentica usando chaves de criptografia, no entanto no mTLS ambas as partes (cliente e servidor) devem autenticar-se apresentando seus certificados e usando suas chaves privadas. A encriptação ocorre na camada de transporte durante o hand-shake do protocolo TLS.
+
+Verifique que na figura 1, a troca inicial de mensagens é feita usando chaves assimétricas e após autenticação de ambas partes, é gerada uma chave simétrica e terminando a negociação.
+
+[](./Prints/Documentação_01.png)
+<img src="Prints/Documentação_01.png"/>
+
+## Como utilizar o mTLS em seu projeto sem muita bagunça
+O projeto mTLS Best Friend traz soluções bem úteis para quem deseja utilizar a tecnologia em seu projeto, o endereço do projeto é https://mtls.run/. O projeto traz formas rápidas de testar o lado do servidor ou cliente e uma arquitetura bem legal de webhook para colocar no seu projeto que estarei introduzindo em seguida, e caso queira saber mais detalhes pode acessar o página oficial.
+
+## SideCar proxy
+A idéia de utilizar um Sidecar Proxy em seu projeto vai permitir que você utilize o mTLS sem ter que lidar diretamente com mTLS em seu projeto. Conforme ilustrado na figura abaixo, a tua API se comunica através do protocolo HTTP com o mTLS sidecar proxy que por sua vez é o responsável por lidar com questões de certificados, chaves, permissões e com a conexão.
+
+[](./Prints/Documentação_02.png)
+<img src="Prints/Documentação_02.png"/>
+
+Por outro lado, do lado do servidor teremos o ambassador que tem o mesmo objetivo do sidecar proxy, ou seja, lidar com a conexão mTLS sem ser necessário que cada um dos serviços implemente ela diretamente.
+
+[](./Prints/Documentação_03.png)
+<img src="Prints/Documentação_03.png"/>
+
+Por fim, nossa arquitetura completa será como ilustra a figura abaixo. Tornando teu projeto ainda mais seguro.
+
+[](./Prints/Documentação_04.png)
+<img src="Prints/Documentação_04.png"/>
+
+##### Fonte: https://rfsaraujobr.medium.com/mtls-de-uma-forma-amig%C3%A1vel-6506c84c1b7e

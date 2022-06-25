@@ -33,7 +33,7 @@ ca_cert_cn="Devlop Local Certificate Authority"
 # Caminho de saída dos arquivos gerados.
 tlsPath="./certificates"
 mkdir -p "$tlsPath" && chmod -R 777 "$tlsPath"
-path_root="$tlsPath/"
+path_root="$tlsPath"
 
 mkdir -p "$path_root"
 mkdir -p "$path_root/private" "$path_root/certs"
@@ -286,3 +286,6 @@ generate_cert "server" "$DNS_SERVER" "-extfile $path_root/server_certs/server_ex
 
 #-----------------------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------------------#
+
+### Verifica certificado de cliente
+openssl verify -CAfile "$path_root/certs/ca.crt" "$path_root/client_certs/client.crt.pem"
