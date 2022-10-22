@@ -13,7 +13,7 @@ Para execução do Projeto em Node.js, executo no querido Powershell (integrado 
 | Software   | Download |
 | ---       | ---      |
 | Node | [download](https://nodejs.org/dist/v16.15.1/node-v16.15.1-x64.msi) |
-| Docker-Desktop | [download](https://nodejs.org/dist/v16.15.1/node-v16.15.1-linux-x64.tar.xz) |
+| Docker-Desktop | [download](https://desktop.docker.com/win/main/amd64/Docker%20Desktop%20Installer.exe?utm_source=docker&utm_medium=webreferral&utm_campaign=dd-smartbutton&utm_location=header) |
 
 ### **Linux**
 | Software   | Download |
